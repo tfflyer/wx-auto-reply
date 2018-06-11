@@ -8,9 +8,9 @@ import threading
 #自动回复开关
 SWITCH_REPLY=True
 #延迟回复开关
-SWITCH_DELAY=False
+SWITCH_DELAY=True
 #延迟时间
-DELAY_TIME=500
+DELAY_TIME=120
 #消息前缀开关
 SWITCH_PREFIX=True
 #消息前缀内容
@@ -140,7 +140,6 @@ def auto_reply(msg):
                     else:
                         reply_content = REPLY_DICT[nickName]
 
-
                     itchat.send(reply_content, toUserName=msg['FromUserName'])
 
 
@@ -151,22 +150,33 @@ def delay_reply():
     if SWITCH_DELAY:
         while len(DELAY_REPLY_DICT)>0:
             localtime = time.time()
-            # print (localtime)
+            print (localtime)
+            print (DELAY_REPLY_DICT['小猫'][0])
+            print (int(DELAY_TIME))
             for item in list(DELAY_REPLY_DICT.keys()):
-                if int(localtime) < int(DELAY_REPLY_DICT[item][0]) + int(DELAY_TIME):
-                    if SWITCH_REPLY:
-                        reply_content = item+ "," + str(round(int(DELAY_TIME) / 60,1)) + "分钟过去了，"+REPLY_DICT[item]
-                        itchat.send(reply_content, toUserName=DELAY_REPLY_DICT[item][1])
-                        print ("发送消息")
+                if SWITCH_REPLY:
+                    reply_content = item + "," + str(round(int(DELAY_TIME) / 60, 1)) + "分钟过去了，" + REPLY_DICT[item]
+                    itchat.send(reply_content, toUserName=DELAY_REPLY_DICT[item][1])
+                    print ("发送消息")
+                    del DELAY_REPLY_DICT[item]
             print (DELAY_REPLY_DICT)
-            DELAY_REPLY_DICT.clear()
-    global timer
-    timer=threading.Timer(20,delay_reply)
-    timer.start()
+
+    global timer1
+    timer1=threading.Timer(DELAY_TIME,delay_reply)
+    timer1.start()
+
+def keep_alive():
+    text="保持登录"
+    itchat.send(text, toUserName="filehelper")
+    global timer2
+    timer2 = threading.Timer(60*60,keep_alive)
+    timer2.start()
 
 if __name__ == '__main__':
-    timer = threading.Timer(20, delay_reply)
-    timer.start()
+    timer1 = threading.Timer(DELAY_TIME, delay_reply)
+    timer1.start()
+    timer2=threading.Timer(60*60,keep_alive)
+    timer2.start()
     itchat.auto_login(True)
     itchat.run()
     # schedule=sched.scheduler(time.time,time.sleep)
