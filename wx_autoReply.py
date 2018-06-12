@@ -8,7 +8,7 @@ import threading
 #自动回复开关
 SWITCH_REPLY=True
 #延迟回复开关
-SWITCH_DELAY=True
+SWITCH_DELAY=False
 #延迟时间
 DELAY_TIME=120
 #消息前缀开关
@@ -177,7 +177,7 @@ if __name__ == '__main__':
     timer1.start()
     timer2=threading.Timer(60*60,keep_alive)
     timer2.start()
-    itchat.auto_login(True)
+    itchat.auto_login()
     itchat.run()
     # schedule=sched.scheduler(time.time,time.sleep)
     # schedule.enter(60,0,delay_reply())
