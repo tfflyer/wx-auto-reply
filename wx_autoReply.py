@@ -119,27 +119,31 @@ def auto_reply(msg):
 
 
     else:
+        #获取发送消息的朋友的信息
         target_friend=itchat.search_friends(userName = msg['FromUserName'])
         if target_friend:
+            #获取ta的昵称
             nickName=target_friend['NickName']
             if not REPLY_DICT.__contains__(nickName):
                 #设置默认回复
                 REPLY_DICT[nickName]="抱歉我有事暂未看到消息，稍后回复，若有急事可以电话联系(•ω•`)"
 
             reply_content=REPLY_DICT[nickName]
-
+            #判断自动回复开关
             if SWITCH_REPLY:
+                #判断延时回复开关
                 if SWITCH_DELAY:
                     localtime = time.time()
                     DELAY_REPLY_DICT[nickName]=[localtime,msg['FromUserName']]
                     print (DELAY_REPLY_DICT)
 
                 if not SWITCH_DELAY:
+                    #判断消息前缀开关
                     if SWITCH_PREFIX:
                         reply_content = PREFIX_CONTENT + REPLY_DICT[nickName]
                     else:
                         reply_content = REPLY_DICT[nickName]
-
+                    #发送消息
                     itchat.send(reply_content, toUserName=msg['FromUserName'])
 
 
@@ -150,14 +154,14 @@ def delay_reply():
     if SWITCH_DELAY:
         while len(DELAY_REPLY_DICT)>0:
             localtime = time.time()
-            print (localtime)
-            print (DELAY_REPLY_DICT['小猫'][0])
-            print (int(DELAY_TIME))
+            # print (localtime)
+            # print (DELAY_REPLY_DICT[item][0])
+            # print (int(DELAY_TIME))
             for item in list(DELAY_REPLY_DICT.keys()):
                 if SWITCH_REPLY:
                     reply_content = item + "," + str(round(int(DELAY_TIME) / 60, 1)) + "分钟过去了，" + REPLY_DICT[item]
                     itchat.send(reply_content, toUserName=DELAY_REPLY_DICT[item][1])
-                    print ("发送消息")
+                    # print ("发送消息")
                     del DELAY_REPLY_DICT[item]
             print (DELAY_REPLY_DICT)
 

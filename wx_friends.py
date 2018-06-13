@@ -21,6 +21,7 @@ def get_sex():
         else:
             sex["other"] += 1
     total = len(my_friends[1:])
+
     # 开始画饼
     attr = list(sex.keys())
     v1 = list(sex.values())
@@ -86,22 +87,6 @@ def friends_signature():
         wash_signature.append(item)
 
     words="".join(wash_signature)
-    # backgroud_Image = plt.imread("C:/Users/casua/Desktop/test.JPG")
-    # wc = WordCloud(background_color='white',  # 设置背景颜色
-    #                mask=backgroud_Image,  # 设置背景图片
-    #                max_words=2000,  # 设置最大现实的字数
-    #
-    #                font_path='C:/Windows/Fonts/STKAITI.ttf',  # 设置字体格式，如不设置显示不了中文
-    #                max_font_size=50,  # 设置字体最大值
-    #                random_state=100,  # 设置有多少种随机生成状态，即有多少种配色方案
-    #                )
-    # wc.generate(words)
-    # image_colors = ImageColorGenerator(backgroud_Image)
-    # wc.recolor(color_func=image_colors)
-    # plt.imshow(wc)
-    # plt.axis('off')
-    # plt.show()
-
     wordlist = jieba.cut(words, cut_all=True)
     word_space_split = " ".join(wordlist)
     coloring = np.array(Image.open("C:/Users/casua/Desktop/test1.JPG"))
@@ -122,7 +107,7 @@ if __name__ == '__main__':
     # signature=get_data("Signature")
     # nickname=get_data("NickName")
 
-    #微信好友省份分布
+    # 微信好友省份分布
     # attr,value=friends_province()
     # map = Map("我的微信好友分布", "@寒食君",width=1200, height=600)
     # map.add("", attr, value, maptype='china', is_visualmap=True,
@@ -130,11 +115,11 @@ if __name__ == '__main__':
     # map.render()
 
 
-    #微信江苏好友分布
-    # attr,value=friends_jiangsu()
-    # map = Map("江苏好友分布","@寒食君", width=1200, height=600)
-    # map.add("", attr, value, maptype='江苏', is_visualmap=True,
-    #         visual_text_color='#000')
-    # map.render()
+    微信江苏好友分布
+    attr,value=friends_jiangsu()
+    map = Map("江苏好友分布","@寒食君", width=1200, height=600)
+    map.add("", attr, value, maptype='江苏', is_visualmap=True,
+            visual_text_color='#000')
+    map.render()
 
-    friends_signature()
+    # friends_signature()
