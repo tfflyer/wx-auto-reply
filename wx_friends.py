@@ -100,7 +100,7 @@ def friends_signature():
     plt.show()
 
 if __name__ == '__main__':
-    itchat.auto_login(True)
+    itchat.auto_login()
 
     # city=get_data("City")
     # province=get_data("Province")
