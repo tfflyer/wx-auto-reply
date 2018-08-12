@@ -85,6 +85,7 @@ def auto_reply(msg):
                     reply_content="【系统消息】延迟回复已开启"
 
                 elif args[1]=='off':
+                    SWITCH_DELAY=False  #here
                     reply_content="【系统消息】延迟回复已关闭"
 
                 elif args[1]=='set':
